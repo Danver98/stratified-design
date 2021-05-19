@@ -45,7 +45,6 @@ def parse(url, sport=None, profile=None, file_path=None):
                     "name").text.strip()
                 if league.find_element_by_tag_name('span').text == "Таблица" and pattern.search(league_name) == None:
                     os.system("cls")
-                    print("\n\nLeague : " + league_name + '\n\n')
                     league.find_element_by_tag_name('span').click()
                     league_results(url, driver, sport, league_name, index)
                     driver.switch_to_window(parent_window)
@@ -88,7 +87,6 @@ def league_results(url, driver, sport, league_name, index):
                     onclick = span.find_element_by_tag_name(
                         "a").get_attribute("onclick")
                     link = link_pattern.search(onclick).group(1)
-                    print("\nTeam : " + team_name + '\n')
                     current_window = driver.current_window_handle
                     driver.switch_to_window(parent_window)
                     driver.execute_script("window.open();")
@@ -165,7 +163,6 @@ def write_to_excel(directory):
         f_name = "leagues/{}".format(file_name)
         df = pandas.read_csv(f_name, sep=',', keep_default_na=False)
         sheet = "Sheet-{}".format(index + 1)
-        print(df['Тотал'])
         df.to_excel(excel_writer, sheet_name=sheet)
     workbook = excel_writer.book
     add_color_format(workbook)
@@ -203,7 +200,6 @@ def agents_from(url=None):
             break
 
 def add_color_format(workbook, total=2.5, ind_total=1.5):
-    print("From add_color_format()")
     total = 2.5
     ind_total = 1.5
     t_more = workbook.add_format(
